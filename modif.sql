@@ -1,0 +1,1 @@
+ALTER TABLE `action` ADD `reussite_robot` BOOLEAN NOT NULL DEFAULT TRUE AFTER `timestamp`;
