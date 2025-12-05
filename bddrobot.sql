@@ -30,7 +30,6 @@ SET time_zone = "+00:00";
 CREATE TABLE `action` (
   `id_action` int(11) NOT NULL,
   `id_robot` int(11) NOT NULL,
-  `id_humain` int(11) NOT NULL,
   `id_scenario` int(11) NOT NULL,
   `action` text NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
