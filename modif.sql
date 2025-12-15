@@ -462,3 +462,53 @@ INSERT INTO `action` (`id_robot`, `id_scenario`, `action`, `timestamp`, `reussit
 (18, 31, 'Sauver un humain', '2025-10-10 17:50:00', TRUE),
 (19, 35, 'Analyser des données', '2025-10-10 02:30:00', TRUE),
 (20, 39, 'Analyser des données', '2025-10-11 11:35:00', TRUE);
+
+
+INSERT INTO action_humain (id_humain, id_action) VALUES
+-- Scénario critique 1 (Mars)
+(3, 1),
+(5, 1),
+(7, 2),
+(11, 3),
+
+-- Scénario critique 6 (Station Vega)
+(15, 6),
+(19, 6),
+(11, 7),
+
+-- Sauvetage médical critique (Mars)
+(3, 10),
+(7, 10),
+(15, 10),
+
+-- Titan – scénario critique de nuit
+(23, 11),
+(27, 11),
+
+-- Europa – surveillance environnementale
+(5, 27),
+(17, 27),
+
+-- Mars – surveillance environnementale
+(3, 28),
+(31, 28),
+
+-- Titan – environnement
+(27, 29),
+(35, 29),
+
+-- Proxima b – nuit
+(9, 30),
+(23, 30),
+
+-- Station Vega – environnement
+(15, 31),
+(19, 31),
+
+-- Cas multi-humains sur une même action (analyse riche)
+(3, 135),
+(7, 135),
+(15, 135),
+
+(11, 138),
+(19, 138);
