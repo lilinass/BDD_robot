@@ -35,20 +35,24 @@ GROUP BY v.localisation;
 SELECT COUNT(*) AS nb_actions_avant
 FROM action;
 
-
-(SELECT etat, COUNT(*) AS nb_robots
+SELECT etat, COUNT(*) AS nb_robots
 FROM robot
-GROUP BY etat;)
+GROUP BY etat;
 
+START TRANSACTION;
 
 UPDATE robot
 SET etat = 'hs'
 WHERE id_robot IN (1, 2);
 
+SELECT etat, COUNT(*) AS nb_robots FROM robot GROUP BY etat;
+
 SELECT COUNT(*) AS nb_actions_apres
 FROM action a
 JOIN robot r ON r.id_robot = a.id_robot
 WHERE r.etat = 'disponible';
+
+ROLLBACK;
 
 -- Scenario 4 : Comment évoluent les risques si le nombre d’humains vulnérables augmente dans une zone spécifique ?
 

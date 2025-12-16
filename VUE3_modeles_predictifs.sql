@@ -15,7 +15,7 @@ round(30*24/count(*),1) as temps_avant_prochain_risque
 
 FROM vue_scenarios_passes
 GROUP BY localisation
-ORDER BY score_risque DESC LIMIT 100;
+ORDER BY score_risque DESC;
 
 
 -- Transactions : similation intervention préventive
@@ -49,7 +49,7 @@ SAVEPOINT avant_intervention;
 -- 5️ MISE À JOUR DE L'ÉTAT DU ROBOT
 
 UPDATE robot
-SET etat = 'en_mission'
+SET etat = 'mission'
 WHERE id_robot = @robot_id;
 
 /* Vérification intermédiaire */
@@ -87,4 +87,15 @@ SELECT etat, COUNT(*) AS nb_robots
 FROM robot
 GROUP BY etat;
 
+--Droit d'accès
 
+CREATE USER 'analyste'@'localhost'
+IDENTIFIED BY 'mdp_analyste';
+
+GRANT SELECT
+ON predictions_conflits
+TO 'superviseur_ethique'@'localhost';
+
+GRANT SELECT
+ON predictions_conflits
+TO 'analyste'@'localhost';

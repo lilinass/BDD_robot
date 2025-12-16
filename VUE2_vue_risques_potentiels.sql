@@ -46,7 +46,6 @@ CREATE INDEX idx_localisation
 ON scenario(zone);
 
 
-
 CREATE USER 'AureSara'@'localhost'
 IDENTIFIED BY 'AureSara';
 GRANT SELECT ON vue_risques_potentiels TO 'AureSara'@'localhost';
