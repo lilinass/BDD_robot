@@ -9,10 +9,10 @@ SELECT
   action.reussite_robot 
 FROM scenario
 
-JOIN action ON action.id_scenario = scenario.id_scenario
-JOIN robot ON robot.id_robot = action.id_robot
-JOIN action_humain ON action_humain.id_action = action.id_action
-JOIN humain ON humain.id_humain = action_humain.id_humain
+LEFT JOIN action ON action.id_scenario = scenario.id_scenario
+LEFT JOIN robot ON robot.id_robot = action.id_robot
+LEFT JOIN action_humain ON action_humain.id_action = action.id_action
+LEFT JOIN humain ON humain.id_humain = action_humain.id_humain
 
 WHERE scenario.priorite_loi = "1";
 
