@@ -1,6 +1,6 @@
 Create view vue_scenarios_passes AS
 SELECT 
-  scenario.zone AS localisation,
+  scenario.zone AS zone,
   scenario.id_scenario,
   humain.id_humain,
   humain.vulnerabilite,
@@ -9,10 +9,10 @@ SELECT
   action.reussite_robot 
 FROM scenario
 
-LEFT JOIN action ON action.id_scenario = scenario.id_scenario
-LEFT JOIN robot ON robot.id_robot = action.id_robot
-LEFT JOIN action_humain ON action_humain.id_action = action.id_action
-LEFT JOIN humain ON humain.id_humain = action_humain.id_humain
+JOIN action ON action.id_scenario = scenario.id_scenario
+JOIN robot ON robot.id_robot = action.id_robot
+JOIN action_humain ON action_humain.id_action = action.id_action
+JOIN humain ON humain.id_humain = action_humain.id_humain
 
 WHERE scenario.priorite_loi = "1";
 
@@ -62,10 +62,23 @@ ON humain(vulnerabilite);
 
 -- Gestion d'accès
 
-CREATE USER 'AureSara'@'localhost'
-IDENTIFIED BY 'AureSara';
+CREATE USER 'superviseur_ethique'@'localhost'
+IDENTIFIED BY 'mot_de_passe_securise';
 
-GRANT SELECT ON vue_scenarios_passes TO 'AureSara'@'localhost';
+GRANT SELECT ON vue_scenarios_passes TO 'superviseur_ethique'@'localhost';
 
-SHOW GRANTS FOR 'AureSara'@'localhost';
+
+REVOKE ALL PRIVILEGES
+ON scenario
+FROM 'superviseur_ethique'@'localhost';
+
+REVOKE ALL PRIVILEGES
+ON humain
+FROM 'superviseur_ethique'@'localhost';
+
+REVOKE ALL PRIVILEGES
+ON action
+FROM 'superviseur_ethique'@'localhost';
+
+SHOW GRANTS FOR 'superviseur_ethique'@'localhost';
 
