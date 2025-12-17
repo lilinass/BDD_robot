@@ -27,7 +27,7 @@ SELECT
     SUM(reussite_robot) AS nb_reussite
 FROM vue_scenarios_passes
 GROUP BY id_robot, nom_robot
-ORDER BY nb_reussite DESC
+ORDER BY nb_reussite DESC;
 
 
 -- 2 Pour avoir le nombre d'interventions par localisation (donc les zones les plus critiques) :
@@ -68,17 +68,17 @@ IDENTIFIED BY 'mot_de_passe_securise';
 GRANT SELECT ON vue_scenarios_passes TO 'superviseur_ethique'@'localhost';
 
 
-REVOKE ALL PRIVILEGES
-ON scenario
-FROM 'superviseur_ethique'@'localhost';
+-- REVOKE ALL PRIVILEGES
+-- ON scenario
+-- FROM 'superviseur_ethique'@'localhost';
 
-REVOKE ALL PRIVILEGES
-ON humain
-FROM 'superviseur_ethique'@'localhost';
+-- REVOKE ALL PRIVILEGES
+-- ON humain
+-- FROM 'superviseur_ethique'@'localhost';
 
-REVOKE ALL PRIVILEGES
-ON action
-FROM 'superviseur_ethique'@'localhost';
+-- REVOKE ALL PRIVILEGES
+-- ON action
+-- FROM 'superviseur_ethique'@'localhost';
 
-SHOW GRANTS FOR 'superviseur_ethique'@'localhost';
+-- SHOW GRANTS FOR 'superviseur_ethique'@'localhost';
 

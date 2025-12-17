@@ -1,7 +1,7 @@
 -- Scenario 1 : Ajouter des dimensions au modèle prédictif : Prenez en compte l’état des robots (disponibles ou en panne)
 CREATE VIEW predictions_conflits_v2 AS
 SELECT
-    v.localisation,
+    v.zone ,
 
     COUNT(*) AS nb_conflits_passes,
     SUM(v.vulnerabilite = 'elevee') AS nb_humains_vulnerables,
@@ -27,7 +27,7 @@ SELECT
 
 FROM vue_scenarios_passes v
 JOIN robot r ON r.id_robot = v.id_robot
-GROUP BY v.localisation;
+GROUP BY v.zone;
 
 
 -- Scenario 3 :  si 10 % des robots deviennent indisponibles ?
@@ -43,7 +43,7 @@ START TRANSACTION;
 
 UPDATE robot
 SET etat = 'hs'
-WHERE id_robot IN (1, 2);
+WHERE id_robot IN (1);
 
 SELECT etat, COUNT(*) AS nb_robots FROM robot GROUP BY etat;
 
@@ -57,33 +57,33 @@ ROLLBACK;
 -- Scenario 4 : Comment évoluent les risques si le nombre d’humains vulnérables augmente dans une zone spécifique ?
 
 SELECT
-    localisation,
+    zone,
     COUNT(*) AS nb_conflits_passes,
     SUM(vulnerabilite = 'elevee') AS nb_humains_vulnerables,
     10
     + 5 * SUM(vulnerabilite = 'elevee')
     + 3 * COUNT(*) AS score_risque
 FROM vue_scenarios_passes
-WHERE localisation = 'Mars'
-GROUP BY localisation;
+WHERE zone = 'M02'
+GROUP BY zone;
 
 START TRANSACTION;
 
 UPDATE humain
 SET vulnerabilite = 'elevee'
-WHERE localisation LIKE 'Mars'
+WHERE localisation LIKE 'M02'
 LIMIT 50;
 
 SELECT
-    localisation,
+    zone,
     COUNT(*) AS nb_conflits_passes,
     SUM(vulnerabilite = 'elevee') AS nb_humains_vulnerables,
     10
     + 5 * SUM(vulnerabilite = 'elevee')
     + 3 * COUNT(*) AS score_risque
 FROM vue_scenarios_passes
-WHERE localisation = 'Mars'
-GROUP BY localisation;
+WHERE zone = 'M02'
+GROUP BY zone;
 
 ROLLBACK;
 
@@ -91,17 +91,17 @@ ROLLBACK;
 
 CREATE VIEW tableau_alerte AS
 SELECT
-    localisation,
+    zone,
     score_risque,
     CASE
-        WHEN score_risque >= 3000 THEN 'Rouge'
-        WHEN score_risque >= 2000 THEN 'Orange'
+        WHEN score_risque >= 100 THEN 'Rouge'
+        WHEN score_risque >= 50 THEN 'Orange'
         ELSE 'Vert'
     END AS niveau_alerte,
 
     CASE 
-        WHEN score_risque >= 3000 THEN 'Envoyez des robots immédiatement !!!'
-        WHEN score_risque >= 2000 THEN 'Faites attentiion...'
+        WHEN score_risque >= 100 THEN 'Envoyez des robots immédiatement !!!'
+        WHEN score_risque >= 50 THEN 'Faites attentiion...'
         ELSE 'Situation sous contrôle'
     END AS recommandation
 
