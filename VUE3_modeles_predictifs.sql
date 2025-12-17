@@ -1,6 +1,6 @@
 CREATE VIEW predictions_conflits AS
 SELECT
-    localisation,
+    zone,
 
     COUNT(*) AS nb_conflits_passes,
     SUM(vulnerabilite = 'elevee') AS nb_humains_vulnerables,
@@ -14,7 +14,7 @@ round(30*24/count(*),1) as temps_avant_prochain_risque
 
 
 FROM vue_scenarios_passes
-GROUP BY localisation
+GROUP BY zone
 ORDER BY score_risque DESC;
 
 

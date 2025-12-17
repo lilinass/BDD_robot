@@ -6,7 +6,7 @@ FROM robot JOIN action ON action.id_robot = robot.id_robot GROUP BY nom_robot;
 
 CREATE VIEW vue_globale_robots_risque AS
 SELECT
-    pc.localisation,
+    pc.zone,
     pc.score_risque,
 
     r.id_robot,
@@ -14,24 +14,24 @@ SELECT
     r.modele,
 
     tr.taux_reussite
-FROM predictions_conflits pc
+FROM predictions_conflits_v2 pc
 JOIN vue_scenarios_passes v
-    ON v.zone = pc.localisation
+    ON v.zone = pc.zone
 JOIN robot r
     ON r.id_robot = v.id_robot
 JOIN taux_reussite tr
     ON tr.id_robot = r.id_robot
-WHERE pc.score_risque >= 2000
+WHERE pc.score_risque >= 50
 GROUP BY
-    pc.localisation,
+    pc.zone,
     pc.score_risque,
     r.id_robot,
     r.nom_robot,
     r.modele,
     tr.taux_reussite;
-    
+
 -- Analyse de cette vue :
-SELECT *
+(SELECT *
 FROM vue_globale_robots_risque
 ORDER BY taux_reussite DESC
 LIMIT 3;
@@ -39,5 +39,5 @@ LIMIT 3;
 SELECT *
 FROM vue_globale_robots_risque
 ORDER BY taux_reussite ASC
-LIMIT 1;
+LIMIT 1;)
 
